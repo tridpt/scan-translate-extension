@@ -1,42 +1,49 @@
 # Quét & Dịch
 
-Extension Chrome/Edge dịch ngay trên trang web theo ba cách:
+[English](README.en.md)
 
-- **Bôi đen chữ:** chọn chữ có sẵn trên trang; nếu chữ đã được chọn trước khi bấm extension, tiện ích dịch ngay. Sau đó, mỗi lần bôi đen đoạn khác trên cùng trang, bản dịch sẽ cập nhật. Nhấn `Esc` để tắt chế độ này.
-- **Menu chuột phải:** bôi đen chữ, nhấp chuột phải và chọn **Dịch đoạn đã chọn**. Bản dịch hiện một lần trên trang mà không cần mở popup.
-- **Khoanh vùng & quét chữ:** kéo một hình chữ nhật quanh chữ đang hiển thị, kể cả chữ trong ảnh trên trang web. Tiện ích nhận dạng chữ bằng Tesseract.js trên máy rồi dịch. OCR hỗ trợ Anh/Việt, Nhật, Hàn, Trung giản thể và Trung phồn thể; chọn ngôn ngữ quét trong popup trước khi khoanh vùng.
+Extension Chrome/Edge để dịch chữ ngay trên trang web. Bạn có thể bôi đen chữ, dùng menu chuột phải, hoặc khoanh vùng chữ trong ảnh. OCR chạy trên máy; phần dịch cần kết nối Internet.
 
-Phím tắt đề xuất `Alt+Shift+Q` mở ngay chế độ khoanh vùng trên trang đang xem. Popup hiển thị phím đã được trình duyệt gán; bấm **Đổi phím** để chỉnh tại trang phím tắt của tiện ích. Nhấn `Esc` để hủy khoanh vùng. Phím tắt chỉ hoạt động khi công tắc đang bật.
+## Tính năng
 
-Popup có công tắc **Đang bật / Đang tắt**. Khi tắt, tiện ích dừng chế độ chọn chữ và vùng OCR trên các thẻ đang mở, ẩn thẻ dịch, hủy yêu cầu dịch đang chạy, khóa hai nút thao tác và vô hiệu hóa mục chuột phải. Trạng thái được lưu cho lần mở trình duyệt sau; biểu tượng hiện huy hiệu **OFF** khi tắt.
+- Dịch chữ bôi đen và hiển thị kết quả trong thẻ nổi trên trang.
+- Quét vùng màn hình bằng OCR tiếng Anh/Việt, Nhật, Hàn, Trung giản thể hoặc Trung phồn thể.
+- Mở khoanh vùng bằng phím tắt đề xuất `Alt+Shift+Q`; có thể đổi phím trong popup.
+- Bật/tắt extension, chọn ngôn ngữ đích và ngôn ngữ OCR. Cài đặt được lưu bằng `chrome.storage.sync`.
+- Dịch qua Google; nếu Google lỗi, thử MyMemory. Thẻ kết quả cho biết nguồn đã dùng.
 
-## Cài đặt
+## Cài nhanh từ mã nguồn
 
-1. Trong thư mục này, chạy `npm install` rồi `npm run build`.
-2. Mở `chrome://extensions` hoặc `edge://extensions`, bật **Developer mode**.
-3. Chọn **Load unpacked** và mở thư mục `dist`.
+Bạn cần Node.js và npm. Repo này chứa **mã nguồn**; lệnh build tạo thư mục `dist` để nạp vào trình duyệt.
 
-Nếu đã cài bản trước từ thư mục `dist`, bấm **Reload** trên thẻ extension ở trang quản lý tiện ích để nhận bản mới.
-Nếu popup hiển thị **Mở trang tiện ích**, bấm nút đó, tìm **Quét & Dịch**, bấm **Reload** rồi mở popup lần nữa. Điều này xảy ra khi trình duyệt vẫn giữ service worker của bản cũ sau khi các file trong `dist` được cập nhật.
+```bash
+npm ci
+npm run build
+```
 
-## Cách dùng
+Mở `chrome://extensions` hoặc `edge://extensions`, bật **Developer mode**, chọn **Load unpacked** và trỏ tới thư mục `dist` vừa tạo. Xem [hướng dẫn cài đặt và cập nhật](docs/INSTALLATION.md) nếu bạn đang dùng một bản cũ hoặc cài từ ZIP đã giải nén.
 
-1. Mở trang web cần dịch, bấm biểu tượng **Quét & Dịch**.
-2. Bật công tắc nếu đang tắt, rồi chọn ngôn ngữ đích (mặc định là tiếng Việt). Nếu quét ảnh, chọn **Chữ trong ảnh** cho đúng ngôn ngữ (mặc định là Anh/Việt).
-3. Bấm **Bôi đen chữ để dịch** hoặc **Khoanh vùng & quét chữ**, rồi chọn nội dung trên trang.
-4. Bản dịch hiện trong một thẻ nổi. Có thể bấm **Sao chép** để lấy bản dịch.
+## Dùng nhanh
 
-Để dịch nhanh chữ đã bôi đen, dùng mục **Dịch đoạn đã chọn** trong menu chuột phải. Cách này hoạt động khi công tắc đang bật.
-Để quét nhanh mà không mở popup, nhấn phím tắt hiển thị dưới nút **Khoanh vùng & quét chữ**.
+1. Mở trang web, bấm biểu tượng **Quét & Dịch** và bật công tắc nếu cần.
+2. Chọn **Dịch sang**. Nếu quét ảnh, chọn đúng mục **Chữ trong ảnh**.
+3. Bấm **Bôi đen chữ để dịch** hoặc **Khoanh vùng & quét chữ**. Bạn cũng có thể dùng menu chuột phải hoặc phím tắt đang hiển thị trong popup.
+4. Bản dịch hiện trên trang; nhấn **Sao chép** để lấy bản dịch, hoặc `Esc` để thoát chế độ chọn.
 
-Extension chỉ được cấp quyền với thẻ đang dùng khi bạn bấm biểu tượng, mục chuột phải hoặc phím tắt. Các trang nội bộ của trình duyệt và một số trang bị khóa không cho tiện ích chạy. Chế độ bôi đen chữ không đọc chữ nằm trong ảnh; hãy dùng khoanh vùng cho trường hợp đó. OCR có thể nhận sai chữ nhỏ hoặc ảnh mờ.
+Xem [hướng dẫn sử dụng](docs/USAGE.md) để biết rõ từng chế độ và giới hạn của chúng.
 
-OCR xử lý ảnh cục bộ; lần đầu quét bằng một ngôn ngữ mới có thể chậm hơn vì tiện ích cần nạp dữ liệu OCR đã đóng gói sẵn. **Văn bản được chọn hoặc nhận dạng sẽ gửi tới Google Dịch** qua `translate.googleapis.com`; nếu Google lỗi, tiện ích gửi văn bản đó tới **MyMemory** qua `api.mymemory.translated.net` để dịch dự phòng. Thẻ dịch cho biết nguồn đã dùng. Cần kết nối Internet. Google dùng endpoint không chính thức; MyMemory miễn phí giới hạn 450 byte mỗi yêu cầu và 4.500 byte cho một lần dịch dự phòng, nên hãy chọn đoạn ngắn hơn nếu gặp thông báo giới hạn. Không lưu văn bản hoặc bản dịch; chỉ lưu ngôn ngữ đích, ngôn ngữ quét và trạng thái bật/tắt. Mỗi lần chọn tối đa 12.000 ký tự khi Google hoạt động.
-MyMemory cũng có hạn mức miễn phí hằng ngày; khi hết hạn mức, tiện ích sẽ báo lỗi thay vì hiển thị bản dịch giả.
+## Tài liệu
 
-## Phát triển
+| Tài liệu | Nội dung |
+| --- | --- |
+| [Cài đặt](docs/INSTALLATION.md) | Build, nạp vào Chrome/Edge, cập nhật và gỡ cài đặt |
+| [Sử dụng](docs/USAGE.md) | Chọn chữ, quét ảnh, phím tắt và công tắc |
+| [Xử lý lỗi](docs/TROUBLESHOOTING.md) | Reload, trang bị chặn, OCR sai và lỗi dịch |
+| [Quyền riêng tư](docs/PRIVACY.md) | Dữ liệu nào ở trên máy, dữ liệu nào được gửi đi và lý do cần từng quyền |
+| [Phát triển](docs/DEVELOPMENT.md) | Cấu trúc mã, build, kiểm thử và đóng gói |
 
-- `npm test` kiểm tra tách đoạn, xử lý phản hồi dịch và logic phím tắt.
-- `npm run build` tạo extension tự chứa trong `dist`.
-- `npm run test:browser` thử bôi đen, kiểm tra phím tắt đã được Chromium đăng ký, đường dịch một lần của menu chuột phải, nguồn dự phòng, OCR đa ngôn ngữ và công tắc với phản hồi dịch mô phỏng cục bộ (cần Chromium đã cài cho Playwright).
-- OCR: Tesseract.js 7 (Apache 2.0), dữ liệu ngôn ngữ `eng`/`vie`/`jpn`/`kor`/`chi_sim`/`chi_tra` từ `@tesseract.js-data` (MIT).
+## Lưu ý về dữ liệu
+
+Ảnh chụp màn hình được xử lý cục bộ để lấy chữ; extension không gửi ảnh tới dịch vụ dịch. **Văn bản bạn chọn hoặc OCR nhận được sẽ được gửi qua HTTPS tới Google Dịch và, khi cần dự phòng, MyMemory.** Extension không lưu lịch sử văn bản hay bản dịch. Xem [chi tiết về quyền riêng tư](docs/PRIVACY.md).
+
+Google endpoint đang dùng là endpoint không chính thức. MyMemory có giới hạn dung lượng và hạn mức miễn phí; nếu hai nguồn đều lỗi, extension sẽ báo lỗi thay vì tạo bản dịch giả.
