@@ -1,0 +1,26 @@
+{
+  "manifest_version": 3,
+  "name": "Quét & Dịch",
+  "version": "1.5.0",
+  "description": "Bôi đen chữ hoặc khoanh vùng màn hình để dịch ngay trên trang web.",
+  "permissions": ["activeTab", "scripting", "storage", "offscreen", "contextMenus"],
+  "host_permissions": ["https://translate.googleapis.com/*", "https://api.mymemory.translated.net/*"],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Quét & Dịch"
+  },
+  "commands": {
+    "scan-region": {
+      "suggested_key": { "default": "Alt+Shift+Q" },
+      "description": "Khoanh vùng và quét chữ trên trang web"
+    }
+  },
+  "icons": { "16": "icons/icon-16.png", "48": "icons/icon-48.png", "128": "icons/icon-128.png" },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  }
+}
