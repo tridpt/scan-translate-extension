@@ -34,7 +34,11 @@ try {
   const popup = await context.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
   await popup.locator("#reload-extension").waitFor({ state: "visible" });
-  assert.match(await popup.locator("#message").textContent(), /mã nền của bản cũ/i);
+  assert.match(await popup.locator("#message").textContent(), /chưa kết nối được với mã nền/i);
+  assert.equal(await popup.locator("#power-title").textContent(), "Cần tải lại");
+  const notice = await popup.locator("#message").boundingBox();
+  const controls = await popup.locator("#enabled-toggle").boundingBox();
+  assert.ok(notice.y < controls.y, "reload guidance should appear above disabled controls");
   assert.equal(await popup.locator("#enabled-toggle").isDisabled(), true);
 
   const managerPromise = context.waitForEvent("page");

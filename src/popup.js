@@ -16,8 +16,8 @@ let needsReload = false;
 function render() {
   toggle.checked = enabled;
   toggle.disabled = !ready || busy || needsReload;
-  powerTitle.textContent = enabled ? "Đang bật" : "Đang tắt";
-  powerDetail.textContent = enabled ? "Sẵn sàng quét và dịch" : "Bật lại để chọn chữ hoặc khoanh vùng";
+  powerTitle.textContent = needsReload ? "Cần tải lại" : !ready ? "Đang kết nối…" : enabled ? "Đang bật" : "Đang tắt";
+  powerDetail.textContent = needsReload ? "Bấm Reload ở trang tiện ích" : !ready ? "Vui lòng chờ" : enabled ? "Sẵn sàng quét và dịch" : "Bật lại để chọn chữ hoặc khoanh vùng";
   buttons.forEach((button) => { button.disabled = !ready || busy || !enabled || needsReload; });
   document.body.classList.toggle("is-off", !enabled);
 }
@@ -25,10 +25,12 @@ function render() {
 function showReload() {
   ready = true;
   needsReload = true;
-  message.textContent = "Trình duyệt còn chạy mã nền của bản cũ. Mở trang tiện ích, bấm Reload cho Quét & Dịch, rồi mở popup lại.";
+  message.textContent = "Popup chưa kết nối được với mã nền của tiện ích. Mở trang tiện ích, bấm Reload cho Quét & Dịch, rồi mở popup lại.";
   reloadButton.hidden = false;
   render();
 }
+
+render();
 
 void (async () => {
   let settingsLoaded = false;

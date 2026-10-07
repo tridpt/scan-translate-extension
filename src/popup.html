@@ -13,9 +13,11 @@
         <div><p class="eyebrow">TIỆN ÍCH TRÌNH DUYỆT</p><h1>Quét <span>&</span> Dịch</h1></div>
       </header>
       <p class="intro">Chọn đoạn chữ bạn muốn hiểu. Bản dịch sẽ xuất hiện ngay trên trang.</p>
+      <p id="message" role="status" aria-live="polite"></p>
+      <button id="reload-extension" class="reload" type="button" hidden>Mở trang tiện ích</button>
 
       <label class="power" for="enabled-toggle">
-        <span class="power-copy"><strong id="power-title">Đang bật</strong><small id="power-detail">Sẵn sàng quét và dịch</small></span>
+        <span class="power-copy"><strong id="power-title">Đang kết nối…</strong><small id="power-detail">Vui lòng chờ</small></span>
         <input id="enabled-toggle" type="checkbox" role="switch" checked disabled>
       </label>
 
@@ -54,8 +56,6 @@
       <p class="shortcut"><span id="shortcut-label">Đang đọc phím tắt…</span><button id="shortcut-settings" type="button">Đổi phím</button></p>
       <p class="tip">Mẹo: Bôi đen chữ rồi nhấp chuột phải → <strong>Dịch đoạn đã chọn</strong>.</p>
 
-      <p id="message" role="status" aria-live="polite"></p>
-      <button id="reload-extension" class="reload" type="button" hidden>Mở trang tiện ích</button>
       <footer>OCR chạy trên máy. Chọn ngôn ngữ quét phù hợp với chữ trong ảnh. Chữ được gửi tới Google Dịch; khi lỗi sẽ thử MyMemory. Cần có mạng.</footer>
     </main>
     <script src="popup.js"></script>

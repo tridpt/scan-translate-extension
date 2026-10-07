@@ -4,7 +4,7 @@
 
 | Hiện tượng | Cách xử lý |
 | --- | --- |
-| Popup báo **“Trình duyệt còn chạy mã nền của bản cũ”** hoặc **“Lệnh không hợp lệ”** | Mở `chrome://extensions` / `edge://extensions`, bấm **Reload** cho **Quét & Dịch**, rồi mở popup lại. Tải lại trang web đang dùng. |
+| Popup ghi **“Cần tải lại”**, hai nút thao tác bị mờ hoặc báo **“Lệnh không hợp lệ”** | Mở `chrome://extensions` / `edge://extensions`, bấm **Reload** cho **Quét & Dịch**, rồi mở popup lại. Tải lại trang web đang dùng. |
 | Không thấy thay đổi sau khi build hoặc giải nén ZIP mới | Kiểm tra đường dẫn của extension trong trang quản lý. Bạn phải cập nhật đúng thư mục đã chọn bằng **Load unpacked**, rồi bấm **Reload**. |
 | Nút thao tác bị mờ hoặc menu chuột phải không dùng được | Mở popup và kiểm tra công tắc **Đang bật**. Nếu popup đang yêu cầu Reload, làm theo thông báo đó. |
 | Phím tắt không mở khoanh vùng | Xem phím **thực tế** dưới nút quét trong popup. Nếu chưa được gán hoặc bị trùng, bấm **Đổi phím**. Bảo đảm extension đang bật và tab hiện tại là trang web thông thường. |
