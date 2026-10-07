@@ -14,14 +14,14 @@
       #mask { position: fixed; inset: 0; background: #0b263640; cursor: crosshair; touch-action: none; pointer-events: auto; }
       #selection { position: absolute; border: 2px solid #e8a542; background: #f4c06a40; box-shadow: 0 0 0 9999px #0b263616; pointer-events: none; }
       #ocr-hint { position: absolute; top: 18px; left: 50%; transform: translateX(-50%); max-width: calc(100vw - 28px); padding: 10px 14px; border-radius: 12px; background: #fffdf7; color: #173e39; box-shadow: 0 8px 28px #0c262b40; font: 600 13px/1.4 system-ui, sans-serif; white-space: nowrap; pointer-events: none; }
-      #card { position: fixed; width: min(380px, calc(100vw - 24px)); max-height: calc(100vh - 24px); overflow: auto; border: 1px solid #d9e6e0; border-radius: 16px; background: #fffdf8; color: #18312e; box-shadow: 0 16px 48px #0a252e45; font: 14px/1.5 system-ui, sans-serif; pointer-events: auto; }
-      #card header { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px 11px; border-bottom: 1px solid #e6eee8; }
+      #card { position: fixed; width: min(380px, calc(100vw - 24px)); max-height: calc(100vh - 24px); overflow: auto; overscroll-behavior: contain; border: 1px solid #d9e6e0; border-radius: 16px; background: #fffdf8; color: #18312e; box-shadow: 0 16px 48px #0a252e45; font: 14px/1.5 system-ui, sans-serif; pointer-events: auto; }
+      #card header { position: sticky; top: 0; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px 11px; border-bottom: 1px solid #e6eee8; background: #fffdf8; }
       #card h2 { margin: 0; font: 700 15px/1.3 system-ui, sans-serif; color: #173e39; }
       #close { width: 27px; height: 27px; padding: 0; border: 0; border-radius: 8px; background: #eaf2ed; color: #173e39; cursor: pointer; font: 700 18px/1 system-ui, sans-serif; }
       #body { padding: 14px 16px 16px; }
       .label { margin: 0 0 4px; color: #71857e; font: 700 10px/1.4 system-ui, sans-serif; letter-spacing: .1em; text-transform: uppercase; }
       #source { max-height: 62px; overflow: hidden; margin: 0 0 13px; color: #60736d; font-size: 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
-      #translation { max-height: 270px; overflow: auto; margin: 0; color: #163831; font-size: 15px; font-weight: 550; white-space: pre-wrap; overflow-wrap: anywhere; }
+      #translation { margin: 0; color: #163831; font-size: 15px; font-weight: 550; white-space: pre-wrap; overflow-wrap: anywhere; }
       #translation.error { color: #a43528; }
       #actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 14px; }
       #detected { color: #82938d; font-size: 11px; }
@@ -59,7 +59,8 @@
     const width = Math.min(380, innerWidth - 24);
     const left = Math.max(12, Math.min(point.x, innerWidth - width - 12));
     card.style.left = `${left}px`;
-    card.style.top = `${Math.max(12, Math.min(point.y + 10, innerHeight - 240))}px`;
+    const top = Math.max(12, Math.min(point.y + 10, innerHeight - card.offsetHeight - 12));
+    card.style.top = `${top}px`;
   }
 
   function showCard({ title, sourceText = "", text, error = false, detectedLanguage = "", provider = "" }) {
@@ -78,6 +79,7 @@
     $("copy").disabled = !translatedText;
     $("copy").textContent = "Sao chép";
     card.hidden = false;
+    card.scrollTop = 0;
     placeCard();
   }
 

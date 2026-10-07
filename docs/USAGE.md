@@ -32,6 +32,8 @@ Bôi đen chữ, nhấp chuột phải và chọn **Dịch đoạn đã chọn**
 3. Kéo chuột khoanh sát đoạn chữ **đang hiển thị** trên tab hiện tại.
 4. Đợi OCR nhận dạng và dịch. Thẻ nổi cho biết chữ đã nhận, bản dịch và nguồn dịch; bấm **Sao chép** để lấy bản dịch.
 
+Khi bản dịch dài, cuộn chuột ngay trong thẻ nổi để xem hết nội dung và nút **Sao chép**. Thẻ sẽ tự đặt trong vùng nhìn thấy của cửa sổ.
+
 Phím tắt đề xuất là `Alt+Shift+Q`. Bấm **Đổi phím** trong popup nếu cần chỉnh; nhấn `Esc` để hủy khoanh vùng. Lần đầu dùng một ngôn ngữ OCR có thể chậm hơn do extension nạp dữ liệu mô hình đã đóng gói. Chữ quá nhỏ, mờ, tương phản thấp hoặc trình bày phức tạp có thể nhận sai.
 
 ## Giới hạn và trang không hỗ trợ

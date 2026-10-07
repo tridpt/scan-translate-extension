@@ -9,6 +9,7 @@ const temp = await mkdtemp(join(tmpdir(), "scan-translate-test-"));
 const extension = join(temp, "extension");
 const translatedSources = [];
 const backupSources = [];
+const longTranslation = Array.from({ length: 80 }, (_, index) => `Dòng dịch ${index + 1}`).join("\n");
 let context;
 let server;
 
@@ -48,6 +49,11 @@ try {
       if (source.includes("Backup translation")) {
         response.writeHead(429, { "content-type": "application/json" });
         response.end("{}");
+        return;
+      }
+      if (source.includes("Long scroll sample")) {
+        response.writeHead(200, { "content-type": "application/json; charset=utf-8" });
+        response.end(JSON.stringify([[[longTranslation]], null, "en"]));
         return;
       }
       const reply = () => {
@@ -201,11 +207,37 @@ try {
   await waitForCard(page, /Bản dịch từ menu chuột phải/i);
   assert.match(await page.locator("#scan-translate-root #source").textContent(), /Context action test/);
   assert.ok(translatedSources.filter((text) => /Hello world/i.test(text)).length >= 3);
+  await page.setViewportSize({ width: 520, height: 360 });
+  const longResult = await worker.evaluate((tabId) => chrome.tabs.sendMessage(tabId, { type: "TRANSLATE_ONCE", text: "Long scroll sample." }), tab.id);
+  assert.equal(longResult.ok, true);
+  await waitForCard(page, /Dòng dịch 80/);
+  const layout = await page.evaluate(() => {
+    const root = document.querySelector("#scan-translate-root").shadowRoot;
+    const card = root.getElementById("card");
+    const translation = root.getElementById("translation");
+    const bounds = card.getBoundingClientRect();
+    return {
+      top: bounds.top, bottom: bounds.bottom, viewportHeight: innerHeight,
+      cardScrollHeight: card.scrollHeight, cardClientHeight: card.clientHeight,
+      translationScrollHeight: translation.scrollHeight, translationClientHeight: translation.clientHeight,
+    };
+  });
+  assert.ok(layout.top >= 11 && layout.bottom <= layout.viewportHeight - 11, `card is outside viewport: ${JSON.stringify(layout)}`);
+  assert.ok(layout.cardScrollHeight > layout.cardClientHeight, "long translation should scroll inside the card");
+  assert.equal(layout.translationScrollHeight, layout.translationClientHeight, "translation should not have a second scrollbar");
+  const pageScrollBefore = await page.evaluate(() => scrollY);
+  await page.locator("#scan-translate-root #card").hover();
+  await page.mouse.wheel(0, 1000);
+  await page.waitForFunction(() => document.querySelector("#scan-translate-root")?.shadowRoot?.getElementById("card")?.scrollTop > 0);
+  assert.equal(await page.evaluate(() => scrollY), pageScrollBefore, "scrolling the card should not scroll the page");
+  await page.locator("#scan-translate-root #copy").scrollIntoViewIfNeeded();
+  const copyBounds = await page.locator("#scan-translate-root #copy").boundingBox();
+  assert.ok(copyBounds.y >= 0 && copyBounds.y + copyBounds.height <= layout.viewportHeight, "copy action should be reachable by scrolling");
   const shortcutsPagePromise = context.waitForEvent("page");
   await control.locator("#shortcut-settings").click();
   const shortcutsPage = await shortcutsPagePromise;
   await shortcutsPage.waitForURL(/^chrome:\/\/extensions\/shortcuts/);
-  console.log("Browser translation, shortcut registration, one-shot context path, MyMemory fallback, multilingual OCR, and on/off switch passed.");
+  console.log("Browser translation, compact viewport scrolling, shortcut registration, one-shot context path, MyMemory fallback, multilingual OCR, and on/off switch passed.");
 } finally {
   if (context) await context.close();
   if (server) await new Promise((resolve) => server.close(resolve));

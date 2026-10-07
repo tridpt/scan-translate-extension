@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Quét & Dịch",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Bôi đen chữ hoặc khoanh vùng màn hình để dịch ngay trên trang web.",
   "permissions": ["activeTab", "scripting", "storage", "offscreen", "contextMenus"],
   "host_permissions": ["https://translate.googleapis.com/*", "https://api.mymemory.translated.net/*"],
